@@ -1,132 +1,120 @@
-
 class CalculatorModel {
-    constructor() {
-        this.reset();
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    this.currentValue = '0';
+    this.previousValue = null;
+    this.operator = null;
+    this.waitingForNewValue = false;
+    this.error = false;
+    this.historyExpression = '';
+  }
+
+  inputDigit(digit) {
+    if (this.error) this.reset();
+
+    if (this.waitingForNewValue) {
+      this.currentValue = digit;
+      this.waitingForNewValue = false;
+    } else {
+      this.currentValue = this.currentValue === '0' ? digit : this.currentValue + digit;
+    }
+  }
+
+  inputDecimal() {
+    if (this.error) this.reset();
+
+    if (this.waitingForNewValue) {
+      this.currentValue = '0.';
+      this.waitingForNewValue = false;
+      return;
+    }
+    if (!this.currentValue.includes('.')) {
+      this.currentValue += '.';
+    }
+  }
+
+  setOperator(nextOperator) {
+    if (this.error) this.reset();
+
+    const inputValue = parseFloat(this.currentValue);
+
+    if (this.previousValue !== null && this.operator && !this.waitingForNewValue) {
+      const result = this.compute();
+      if (this.isInvalid(result)) {
+        this.setError();
+        return;
+      }
+      this.currentValue = this.formatResult(result);
+      this.previousValue = result;
+    } else {
+      this.previousValue = inputValue;
     }
 
-    reset() {
-        this.currentValue = '0';
-        this.previousValue = null;
-        this.operator = null;
-        this.waitingForNewValue = false;
-        this.error = false;
-        this.historyExpression = '';
+    this.waitingForNewValue = true;
+    this.operator = nextOperator;
+    this.historyExpression = `${this.previousValue} ${nextOperator}`;
+  }
+
+  equals() {
+    if (this.error || this.operator === null) return;
+
+    const prev = this.previousValue;
+    const current = parseFloat(this.currentValue);
+    const op = this.operator;
+
+    const result = this.compute();
+    if (this.isInvalid(result)) {
+      this.setError();
+      return;
     }
 
-    inputDigit(digit) {
-        if (this.error) this.reset();
+    this.historyExpression = `${prev} ${op} ${current} =`;
+    this.currentValue = this.formatResult(result);
+    this.previousValue = null;
+    this.operator = null;
+    this.waitingForNewValue = true;
+  }
 
-        if (this.waitingForNewValue) {
-            this.currentValue = digit;
-            this.waitingForNewValue = false;
-        } else {
-            this.currentValue = this.currentValue === '0'
-                ? digit
-                : this.currentValue + digit;
-        }
+  getDisplayValue() {
+    return this.error ? 'Erro' : this.currentValue;
+  }
+
+  getHistoryValue() {
+    return this.error ? '' : this.historyExpression;
+  }
+
+  compute() {
+    const prev = this.previousValue;
+    const current = parseFloat(this.currentValue);
+
+    switch (this.operator) {
+      case '+': return prev + current;
+      case '-': return prev - current;
+      case '×':
+      case '*': return prev * current;
+      case '÷':
+      case '/': return current === 0 ? NaN : prev / current;
+      default: return current;
     }
+  }
 
-    inputDecimal() {
-        if (this.error) this.reset();
+  isInvalid(result) {
+    return Number.isNaN(result) || !Number.isFinite(result);
+  }
 
-        if (this.waitingForNewValue) {
-            this.currentValue = '0.';
-            this.waitingForNewValue = false;
-            return;
-        }
+  setError() {
+    this.error = true;
+    this.previousValue = null;
+    this.operator = null;
+    this.historyExpression = '';
+    this.waitingForNewValue = true;
+  }
 
-        if (!this.currentValue.includes('.')) {
-            this.currentValue += '.';
-        }
-    }
-
-    setOperator(operator) {
-        if (this.error) return;
-
-        const inputValue = parseFloat(this.currentValue);
-
-        if (this.operator && !this.waitingForNewValue) {
-            this.compute();
-            if (this.error) return;
-        }
-
-        this.previousValue = parseFloat(this.currentValue);
-        this.operator = operator;
-        this.waitingForNewValue = true;
-        this.historyExpression = `${this.formatResult(this.previousValue)} ${operator}`;
-    }
-
-    equals() {
-        if (!this.operator || this.waitingForNewValue || this.error) return;
-
-        const firstValue = this.previousValue;
-        const secondValue = parseFloat(this.currentValue);
-        const operator = this.operator;
-
-        this.historyExpression = `${this.formatResult(firstValue)} ${operator} ${this.formatResult(secondValue)} =`;
-        this.compute();
-        this.operator = null;
-        this.previousValue = null;
-        this.waitingForNewValue = true;
-    }
-
-    getDisplayValue() {
-        return this.error ? 'Erro' : this.currentValue;
-    }
-
-    getHistoryValue() {
-        return this.historyExpression;
-    }
-
-    compute() {
-        const firstValue = this.previousValue;
-        const secondValue = parseFloat(this.currentValue);
-        let result;
-
-        switch (this.operator) {
-            case '+':
-                result = firstValue + secondValue;
-                break;
-            case '-':
-                result = firstValue - secondValue;
-                break;
-            case '*':
-            case '×':
-                result = firstValue * secondValue;
-                break;
-            case '/':
-            case '÷':
-                if (secondValue === 0) {
-                    this.setError();
-                    return;
-                }
-                result = firstValue / secondValue;
-                break;
-            default:
-                return;
-        }
-
-        if (!Number.isFinite(result)) {
-            this.setError();
-            return;
-        }
-
-        this.currentValue = this.formatResult(result);
-    }
-
-    isInvalid() {
-        return this.error;
-    }
-
-    setError() {
-        this.currentValue = 'Erro';
-        this.error = true;
-        this.operator = null;
-        this.previousValue = null;
-        this.waitingForNewValue = true;
-    }
-
-    formatResult(number) {
-        return String(Number(number.toFixed(10)));
-    }
+  formatResult(result) {
+    const rounded = Math.round(result * 1e10) / 1e10;
+    return String(rounded);
+  }
 }
