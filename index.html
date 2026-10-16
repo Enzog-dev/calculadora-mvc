@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora MVC</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="model.js" defer></script>
+    <script src="view.js" defer></script>
+    <script src="controller.js" defer></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <main class="calculadora">
+        <section class="display">
+            <div class="display-historico" data-display-history></div>
+            <div id="display" data-display>0</div>
+        </section>
+
+        <section class="botoes">
+            <button data-action="clear">AC</button>
+            <button data-action="decimal" data-value=".">.</button>
+            <button class="operador" data-value="/">÷</button>
+            <button class="operador" data-value="*">×</button>
+
+            <button data-value="7">7</button>
+            <button data-value="8">8</button>
+            <button data-value="9">9</button>
+            <button class="operador" data-value="-">−</button>
+
+            <button data-value="4">4</button>
+            <button data-value="5">5</button>
+            <button data-value="6">6</button>
+            <button class="operador" data-value="+">+</button>
+
+            <button data-value="1">1</button>
+            <button data-value="2">2</button>
+            <button data-value="3">3</button>
+            <button class="igual" data-action="equals">=</button>
+
+            <button class="span-tudo" data-value="0">0</button>
+        </section>
+    </main>
+</body>
+</html>
