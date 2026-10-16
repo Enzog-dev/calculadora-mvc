@@ -1,0 +1,95 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #181818;
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
+
+.calculadora {
+    width: 320px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #252525;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.display {
+    min-height: 100px;
+    margin-bottom: 20px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: #111;
+}
+
+#display {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    font-size: 2rem;
+}
+
+.display-historico {
+    min-height: 22px;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.botoes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+button {
+    min-height: 55px;
+    border: none;
+    border-radius: 12px;
+    background-color: #3a3a3a;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #505050;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+.operador {
+    background-color: #6c45a3;
+}
+
+.operador:hover {
+    background-color: #8059b8;
+}
+
+.igual {
+    grid-row: span 2;
+    background-color: #8755c7;
+}
+
+.igual:hover {
+    background-color: #9b70d5;
+}
+
+.span-tudo {
+    grid-column: span 3;
+}
