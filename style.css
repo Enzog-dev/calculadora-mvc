@@ -1,95 +1,133 @@
-
+/* 1. RESET E PADRONIZAÇÃO */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* 2. ESTRUTURA DO FUNDO E CENTRALIZAÇÃO */
 body {
     min-height: 100vh;
+    background-color: #0f172a;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #181818;
-    font-family: Arial, sans-serif;
-    color: #fff;
 }
 
+/* 3. CORPO DA CALCULADORA */
 .calculadora {
     width: 320px;
-    padding: 20px;
+    background-color: #1e293b;
+    padding: 24px;
     border-radius: 20px;
-    background-color: #252525;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
+header h1 {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+/* 4. VISOR (DISPLAY) E HISTÓRICO */
 .display {
-    min-height: 100px;
     margin-bottom: 20px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    overflow: hidden;
-    border-radius: 12px;
-    background-color: #111;
-}
-
-#display {
-    max-width: 100%;
-    overflow-wrap: anywhere;
-    font-size: 2rem;
 }
 
 .display-historico {
     min-height: 22px;
-    color: #aaa;
-    font-size: 0.9rem;
+    color: #94a3b8;
+    font-size: 0.95rem;
+    text-align: right;
+    padding: 0 4px;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    user-select: none;
 }
 
+#display {
+    width: 100%;
+    height: 65px;
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    color: #f8fafc;
+    font-size: 2.2rem;
+    text-align: right;
+    padding: 0 16px;
+    outline: none;
+}
+
+#display::placeholder {
+    color: #475569;
+}
+
+/* 5. GRADE DE BOTÕES (CSS GRID) */
 .botoes {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 12px;
 }
 
+/* 6. ESTILO GERAL DOS BOTÕES */
 button {
-    min-height: 55px;
+    height: 55px;
     border: none;
     border-radius: 12px;
-    background-color: #3a3a3a;
-    color: #fff;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    background-color: #334155;
+    color: #f8fafc;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+    user-select: none;
 }
 
 button:hover {
-    background-color: #505050;
+    background-color: #475569;
 }
 
 button:active {
-    transform: scale(0.97);
+    transform: scale(0.94);
+}
+
+button:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 2px;
+}
+
+/* 7. CORES E POSIÇÕES ESPECIAIS */
+.span-tudo {
+    grid-column: span 4;
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+.span-tudo:hover {
+    background-color: #dc2626;
 }
 
 .operador {
-    background-color: #6c45a3;
+    background-color: #f59e0b;
+    color: #ffffff;
+    font-size: 1.4rem;
 }
 
 .operador:hover {
-    background-color: #8059b8;
+    background-color: #d97706;
 }
 
 .igual {
-    grid-row: span 2;
-    background-color: #8755c7;
+    background-color: #0ea5e9;
+    color: #ffffff;
+    font-size: 1.4rem;
 }
 
 .igual:hover {
-    background-color: #9b70d5;
-}
-
-.span-tudo {
-    grid-column: span 3;
+    background-color: #0284c7;
 }
